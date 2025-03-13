@@ -21,8 +21,8 @@ class Dictionary:
         listaParoleErrate = []
         testoScomposto = testo.strip().split(" ")
         for p in testoScomposto:
-            if not self.parole.__contains__(p.lower()):
-                listaParoleErrate.append(p)
+            if not self.parole.__contains__(p.strip(",").lower()):
+                listaParoleErrate.append(p.strip(","))
         return listaParoleErrate
 
     def verificaParoleLinear(self, testo):
@@ -32,11 +32,11 @@ class Dictionary:
             trovata = False
             i = 0
             while not trovata and i < len(self.parole):
-                if p.lower() == self.parole[i]:
+                if p.strip(",").lower() == self.parole[i]:
                     trovata = True
                 i += 1
             if not trovata:
-                listaParoleErrate.append(p)
+                listaParoleErrate.append(p.strip(","))
         return listaParoleErrate
 
     def verificaParoleDichotomic(self, testo):
@@ -45,21 +45,21 @@ class Dictionary:
         for p in testoScomposto:
             scartate = []
             trovata = False
-            posizione = len(self.parole)//2
-            while (not trovata) and (len(scartate)<len(self.parole)):
-                print(f"{len(scartate)}    {len(self.parole)}")
-                print(posizione)
-                if p.lower() == self.parole[posizione]:
+            min = 0
+            max = len(self.parole)
+            while (not trovata) and (len(scartate)<len(self.parole)-1):
+                posizione = round((min+max)/2)
+                if p.strip(",").lower() == self.parole[posizione]:
                     scartate.append(p)
                     trovata = True
-                elif p.lower() < self.parole[posizione]:
-                    scartate += self.parole[posizione:]
-                    posizione = posizione//2
+                elif p.strip(",").lower() < self.parole[posizione]:
+                    scartate += self.parole[posizione:max]
+                    max = posizione
                 else:
-                    scartate += self.parole[:posizione]
-                    posizione = posizione*2
+                    scartate += self.parole[min:posizione]
+                    min = posizione
             if not trovata:
-                listaParoleErrate.append(p)
+                listaParoleErrate.append(p.strip(","))
         return listaParoleErrate
 
 
