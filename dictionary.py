@@ -43,20 +43,20 @@ class Dictionary:
         listaParoleErrate = []
         testoScomposto = testo.strip().split(" ")
         for p in testoScomposto:
-            scartate = []
+            scartate = 0
             trovata = False
             min = 0
             max = len(self.parole)
-            while (not trovata) and (len(scartate)<len(self.parole)-1):
+            while (not trovata) and (scartate<len(self.parole)-1):
                 posizione = round((min+max)/2)
                 if p.strip(",").lower() == self.parole[posizione]:
-                    scartate.append(p)
+                    scartate += 1
                     trovata = True
                 elif p.strip(",").lower() < self.parole[posizione]:
-                    scartate += self.parole[posizione:max]
+                    scartate += max - posizione
                     max = posizione
                 else:
-                    scartate += self.parole[min:posizione]
+                    scartate += posizione - min
                     min = posizione
             if not trovata:
                 listaParoleErrate.append(p.strip(","))
